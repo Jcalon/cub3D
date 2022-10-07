@@ -6,7 +6,7 @@
 /*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:41:22 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/05 05:00:48 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/06 23:39:09 by crazyd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "mlx.h"
 # include <stdbool.h>
+# include <fcntl.h>
 
 # define IMG_W 40
 # define IMG_H 40
@@ -27,23 +28,19 @@
 
 typedef struct s_map
 {
-	int		no;
-	int		so;
-	int		we;
-	int		ea;
+	int		fd;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
 	int		f;
 	int		c;
-	char	*no_path;
-	char	*so_path;
-	char	*we_path;
-	char	*ea_path;
 	int		f_color[3];
 	int		c_color[3];
 	int		size_map;
 	char	**map;
 }	t_map;
 
-
-bool	check_extension(char *filename);
+void	init_map(t_map *map);
 
 #endif

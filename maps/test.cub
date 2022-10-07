@@ -1,0 +1,15 @@
+NO ./textures/ground.xpm
+
+SO		 ./textures/ground.xpm
+
+WE ./textures/ground.xpm
+
+EA ./textures/ground.xpm
+
+F 255,100,255
+C 225,30,0
+
+11111
+10001
+10001
+11111
