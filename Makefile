@@ -5,7 +5,7 @@ SRCS_PATH = srcs/
 OBJS_PATH = objs/
 DEPS_PATH = deps/
 
-SRCS 	= main.c parsing/parsing.c
+SRCS 	= main.c parsing/parsing.c parsing/get_map.c error.c
 OBJS 	= $(SRCS:%.c=$(OBJS_PATH)%.o)
 DEPS	= $(SRCS:%.c=$(DEPS_PATH)%.d)
 

@@ -6,7 +6,7 @@
 /*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:42:00 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/07 21:07:02 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/11 04:32:53 by crazyd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@ static bool	check_extension(char *filename)
 int	main(int argc, char *argv[])
 {
 	t_map	map;
+	//t_cub	cub;
 
 	if (argc != 2)
-		return(printf("erreur nbr args\n"));
+		return(errmsg("Write ./cub3D path_to_map", 1));
 	if (!check_extension(argv[1]))
-		return(printf("erreur ext\n"));
+		return(errmsg("Map extension must be .cub", 1));
 	else
 	{
-		printf("cc\n");
 		map.fd = open(argv[1], O_RDONLY);
 		if (map.fd == -1)
-			return(printf("erreur open\n"));
-		init_map(&map);
-		printf("cc\n");
+			return(strerror(errno), errno);
+		init_map(&map, argv[1]);
 	}
+	clean_map(&map);
 }

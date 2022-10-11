@@ -6,7 +6,7 @@
 /*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:50:23 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/07 22:00:16 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/11 04:31:47 by crazyd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,36 +77,44 @@ static int	check_element(char **splited, t_map *map)
 	if (map->no == NULL && splited[0][0] == 'N' && splited[0][1] == 'O')
 	{
 		map->no = ft_strdup(splited[1]);
+		if (!map->no)
+			return (2);
 		fd = open(map->no, O_RDONLY);
 		if (fd == -1)
-			return (0);
+			return (2);
 		close(fd);
 		return (1);
 	}
 	else if (map->so == NULL && splited[0][0] == 'S' && splited[0][1] == 'O')
 	{
 		map->so = ft_strdup(splited[1]);
+		if (!map->so)
+			return (2);
 		fd = open(map->so, O_RDONLY);
 		if (fd == -1)
-			return (0);
+			return (2);
 		close(fd);
 		return (1);
 	}
 	else if (map->we == NULL && splited[0][0] == 'W' && splited[0][1] == 'E')
 	{
 		map->we = ft_strdup(splited[1]);
+		if (!map->we)
+			return (2);
 		fd = open(map->we, O_RDONLY);
 		if (fd == -1)
-			return (0);
+			return (2);
 		close(fd);
 		return (1);
 	}
 	else if (map->ea == NULL && splited[0][0] == 'E' && splited[0][1] == 'A')
 	{
 		map->ea = ft_strdup(splited[1]);
+		if (!map->ea)
+			return (2);
 		fd = open(map->ea, O_RDONLY);
 		if (fd == -1)
-			return (0);
+			return (2);
 		close(fd);
 		return (1);
 	}
@@ -115,22 +123,22 @@ static int	check_element(char **splited, t_map *map)
 		map->f = 1;
 		rgb = ft_split(splited[1], ",");
 		if (!rgb)
-			return (1);
+			return (2);
 		if (ft_array_size(rgb) == 3 && check_rgb(map, rgb, 0))
-			return (1);
+			return (ft_free_array(rgb), 1);
 		else
-			return (0);
+			return (ft_free_array(rgb), 0);
 	}
 	else if (map->c == 0 && splited[0][0] == 'C' && splited[0][1] == '\0')
 	{
 		map->c = 1;
 		rgb = ft_split(splited[1], ",");
 		if (!rgb)
-			exit(1);
+			return (2);
 		if (ft_array_size(rgb) == 3 && check_rgb(map, rgb, 1))
-			return (1);
+			return (ft_free_array(rgb), 1);
 		else
-			return (0);
+			return (ft_free_array(rgb), 0);
 	}
 	else
 		return (0);
@@ -139,22 +147,31 @@ static int	check_element(char **splited, t_map *map)
 static void	get_element(char *line, t_map *map)
 {
 	char 	**splited;
+	int		check;
 
 	splited = ft_split(line, "\a\b\t\n\v\f\r ");
 	if (!splited)
-		exit(1);
+	{
+		free(line);
+		ft_map_error(map, strerror(errno), errno);
+	}
 	if (ft_array_size(splited) != 2 || ft_strlen(splited[0]) > 2)
 	{
+		free(line);
 		ft_free_array(splited);
-		printf("%s\n", line);
-		printf("Ellement error\n");
-		exit (1);
+		ft_map_error(map, "Invalid element in the .cub file", 1);
 	}
-	else if (!check_element(splited, map))
+	check = check_element(splited, map);
+	ft_free_array(splited);
+	if (!check)
 	{
-		ft_free_array(splited);
-		printf("Element error\n");
-		exit (1);
+		free(line);
+		ft_map_error(map, "Invalid element in the .cub file", 1);
+	}
+	else if (check == 2)
+	{
+		free(line);
+		ft_map_error(map, strerror(errno), errno);
 	}
 }
 
@@ -175,25 +192,28 @@ static void	get_texture(t_map *map)
 		else if (!ft_iswhitespacestr(line) && counter == 6)
 		{
 			counter++;
-			printf("tt\n");
 			while (line && !ft_iswhitespacestr(line))
+			{
+				free(line);
 				line = get_next_line(map->fd);
+				map->size_map++;
+			}
 		}
 		else if (!ft_iswhitespacestr(line) && counter > 6)
 		{
-			printf("tst\n");
-			exit(1);
+			free(line);
+			ft_map_error(map, "Too many elements in the .cub file", 1);
 		}
+		free(line);
 		line = get_next_line(map->fd);
 	}
 	free(line);
+	close(map->fd);
 	if (counter < 7)
-	{
-		exit(1);
-	}
+		ft_map_error(map, "Too many elements in the .cub file", 1);
 }
 
-void	init_map(t_map *map)
+void	init_map(t_map *map, char *argv)
 {
 	map->no = NULL;
 	map->so = NULL;
@@ -201,8 +221,17 @@ void	init_map(t_map *map)
 	map->ea = NULL;
 	map->f = 0;
 	map->c = 0;
-	map->size_map = 0;
+	map->size_map = 1;
+	map->player_x = 0;
+	map->player_x = 0;
+	map->map = NULL;
 	get_texture(map);
+	map->map = malloc(sizeof(char *) * map->size_map);
+	if (!map->map)
+		ft_map_error(map, strerror(errno), errno);
+	get_map(map, argv);
+	check_map(map);
+	printf("Map OK\n");
 }
 
 
