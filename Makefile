@@ -5,9 +5,17 @@ SRCS_PATH = srcs/
 OBJS_PATH = objs/
 DEPS_PATH = deps/
 
-SRCS 	= main.c parsing/parsing.c parsing/get_map.c error.c
-OBJS 	= $(SRCS:%.c=$(OBJS_PATH)%.o)
-DEPS	= $(SRCS:%.c=$(DEPS_PATH)%.d)
+SRCS 	=	main.c \
+			parsing/parsing.c \
+			parsing/get_map.c \
+			raycasting/init.c \
+			raycasting/movement.c \
+			raycasting/raycasting.c \
+			raycasting/put_pixel.c \
+			error.c
+
+OBJS 	= ${SRCS:%.c=${OBJS_PATH}%.o}
+DEPS	= ${SRCS:%.c=${DEPS_PATH}%.d}
 
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror -g
@@ -16,12 +24,13 @@ INCLUDES = -I mlx_linux -I libft -I includes -I usr/include
 
 all: 	${NAME}
 
-$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(DEPS_PATH)%.d
-		@mkdir -p $(@D)
-		${CC} ${CFLAGS} ${INCLUDES} -MMD -MF $(DEPS_PATH)$*.d -c $< -o $@
+${OBJS_PATH}%.o: ${SRCS_PATH}%.c ${DEPS_PATH}%.d
+		@mkdir -p ${@D}
+		${CC} ${CFLAGS} ${INCLUDES} -MMD -MF ${DEPS_PATH}$*.d -c $< -o $@
 
-$(DEPS_PATH)%.d: $(SRCS_PATH)%.c;
-		@mkdir -p $(@D)
+${DEPS_PATH}%.d: ${SRCS_PATH}%.c
+		@echo "ccc\n"
+		@mkdir -p ${@D}
 
 ${NAME}: Makefile ${OBJS}
 		@echo "----Compiling lib----\n"
@@ -29,10 +38,10 @@ ${NAME}: Makefile ${OBJS}
 		@echo "\n----Compiling mlx----\n"
 		@make -C mlx_linux --no-print-directory
 		@echo "\n----Compiling cub3D----\n"
-		$(CC) $(CFLAGS) ${OBJS} -Llibft -lft -Lmlx_linux -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz ${INCLUDES} -o ${NAME}
+		${CC} ${CFLAGS} ${OBJS} -Llibft -lft -Lmlx_linux -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz ${INCLUDES} -o ${NAME}
 		@echo "\nCub3d Compiled!\n"
 
--include $(DEPS)
+-include ${DEPS}
 
 clean:
 		@make clean -C libft --no-print-directory
@@ -42,10 +51,11 @@ clean:
 
 fclean: clean
 		@make fclean -C libft
-		@rm -f $(NAME)
-		@echo "Deleting everything!\n"
+		@rm -f ${NAME}
+		@echo "\nDeleting everything!\n"
 
-re:		fclean all
+re:		fclean 
+		make all
 
 bonus: ${NAME_BONUS}
 

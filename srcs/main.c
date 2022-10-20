@@ -6,11 +6,18 @@
 /*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:42:00 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/11 04:32:53 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/20 23:46:16 by crazyd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+
+int	ft_end(t_cub *data)
+{
+	(void)data;
+	exit(1);
+	return (1);
+}
 
 static bool	check_extension(char *filename)
 {
@@ -20,10 +27,73 @@ static bool	check_extension(char *filename)
 	return (false);
 }
 
+int	ft_key(t_cub *data)
+{
+	if (data->w == W)
+		move_forward(data);
+	if (data->a == A)
+		move_left(data);
+	if (data->s == S)
+		move_backward(data);
+	if (data->d == D)
+		move_right(data);
+	if (data->r == RIGHT)
+		rotate(data, 0);
+	if (data->l == LEFT)
+		rotate(data, 1);
+	return (0);
+}
+
+static int	ft_keycode(int keycode, t_cub *data)
+{
+	if (keycode == ESC)
+		ft_end(data);
+	else if (keycode == W)
+		data->w = keycode;
+	else if (keycode == A)
+		data->a = keycode;
+	else if (keycode == S)
+		data->s = keycode;
+	else if (keycode == D)
+		data->d = keycode;
+	else if (keycode == RIGHT)
+		data->r = keycode;
+	else if (keycode == LEFT)
+		data->l = keycode;
+	return (0);
+}
+
+static int	ft_keyrelease(int keycode, t_cub *data)
+{
+	if (keycode == ESC)
+		ft_end(data);
+	else if (keycode == W)
+		data->w = 0;
+	else if (keycode == A)
+		data->a = 0;
+	else if (keycode == S)
+		data->s = 0;
+	else if (keycode == D)
+		data->d = 0;
+	else if (keycode == RIGHT)
+		data->r = 0;
+	else if (keycode == LEFT)
+		data->l = 0;
+	return (0);
+}
+
+static void	ft_render_next_frame(t_cub *data)
+{
+	mlx_hook(data->win, 17, 1L << 2, ft_end, data);
+	mlx_hook(data->win, 2, 1L << 0, ft_keycode, data);
+	mlx_loop_hook(data->mlx, ft_raycasting, data);
+	mlx_hook(data->win, 3, 1L << 1, ft_keyrelease, data);
+	mlx_loop(data->mlx);
+}
+
 int	main(int argc, char *argv[])
 {
-	t_map	map;
-	//t_cub	cub;
+	t_cub	data;
 
 	if (argc != 2)
 		return(errmsg("Write ./cub3D path_to_map", 1));
@@ -31,10 +101,15 @@ int	main(int argc, char *argv[])
 		return(errmsg("Map extension must be .cub", 1));
 	else
 	{
-		map.fd = open(argv[1], O_RDONLY);
-		if (map.fd == -1)
+		data.map.fd = open(argv[1], O_RDONLY);
+		if (data.map.fd == -1)
 			return(strerror(errno), errno);
-		init_map(&map, argv[1]);
+		init_map(&data.map, argv[1]);
 	}
-	clean_map(&map);
+	data.mlx = mlx_init();
+	init_coord(&data);
+	init_window(&data);
+	ft_render_next_frame(&data);
+	clean_map(&data.map);
+	return (0);
 }

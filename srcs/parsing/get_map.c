@@ -6,7 +6,7 @@
 /*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 21:42:32 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/11 04:39:29 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/19 22:37:14 by crazyd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	check_map(t_map *map)
 					ft_map_error(map, "Too many POV", 1);
 				map->player_x = x;
 				map->player_y = y;
+				map->player = map->map[y][x];
 			}
 			else if (map->map[y][x] == ' ')
 				check_space(map, x, y);
