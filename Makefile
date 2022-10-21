@@ -6,13 +6,16 @@ OBJS_PATH = objs/
 DEPS_PATH = deps/
 
 SRCS 	=	main.c \
-			parsing/parsing.c \
+			parsing/init_parsing.c \
 			parsing/get_map.c \
+			parsing/check_map.c \
+			parsing/check_map_info.c \
 			raycasting/init.c \
 			raycasting/movement.c \
 			raycasting/raycasting.c \
 			raycasting/put_pixel.c \
-			error.c
+			error.c \
+			utils.c
 
 OBJS 	= ${SRCS:%.c=${OBJS_PATH}%.o}
 DEPS	= ${SRCS:%.c=${DEPS_PATH}%.d}
@@ -29,7 +32,6 @@ ${OBJS_PATH}%.o: ${SRCS_PATH}%.c ${DEPS_PATH}%.d
 		${CC} ${CFLAGS} ${INCLUDES} -MMD -MF ${DEPS_PATH}$*.d -c $< -o $@
 
 ${DEPS_PATH}%.d: ${SRCS_PATH}%.c
-		@echo "ccc\n"
 		@mkdir -p ${@D}
 
 ${NAME}: Makefile ${OBJS}

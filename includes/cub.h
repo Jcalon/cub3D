@@ -6,7 +6,7 @@
 /*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:41:22 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/20 23:58:06 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:01:44 by crazyd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,13 @@ typedef struct s_img
 	int		width;
 }	t_img;
 
-
-typedef struct	s_cub
+typedef struct s_cub
 {
 	void	*mlx;
 	void	*win;
 	int		win_width;
 	int		win_height;
-	t_map 	map;
+	t_map	map;
 	t_img	screen;
 	t_img	north;
 	t_img	south;
@@ -95,11 +94,8 @@ typedef struct	s_cub
 	double	step_x;
 	double	step_y;
 	double	camerax;
-	double	speed;
-	double	wall_len;
-	double	wall_x;
-	int		hit;
 	int		side;
+	double	wall_x;
 	int		w;
 	int		a;
 	int		s;
@@ -107,36 +103,53 @@ typedef struct	s_cub
 	int		l;
 	int		r;
 	int		wall_type;
+	double	wall_len;
+	int		hit;
+	double	speed;
 }	t_cub;
 
+/* Parsing */
+
+bool	check_extension(char *filename);
 void	init_map(t_map *map, char *argv);
-void	get_map(t_map *map, char *argv);
+void	check_element(t_map *map, char **splited, char *line);
+void	get_map(t_map *map);
 void	check_map(t_map *map);
 
-bool	ft_iswhitespacestr(char *str);
+/* Image and data initialisation */
 
-int		errmsg(char *str, int code);
-void	ft_map_error(t_map *map, char *str, int code);
-void	clean_map(t_map *map);
+void	init_data(t_cub *data);
+void	init_screen(t_cub *data);
 
-void	init_coord(t_cub *data);
+/* Key event with WASD and <- -> */
 
-void	init_window(t_cub *data);
-
+int		ft_key_action(t_cub *data);
 void	move_forward(t_cub *data);
 void	move_backward(t_cub *data);
 void	move_left(t_cub *data);
 void	move_right(t_cub *data);
 void	rotate(t_cub *data, bool lr);
 
+/* Perform raycasting */
+
 int		ft_raycasting(t_cub *data);
 
-void	pixel_put_wall(t_cub *data, int x, int y);
-void	pixel_put_floor(t_cub *data, int x, int y);
-void	pixel_put_sky(t_cub *data, int x, int y);
+/* Print sky, wall and floor on the screen */
 
-int		ft_key(t_cub *data);
+void	put_column_to_win(t_cub *data, int x);
 
+/* Utils */
+
+bool	ft_isinstr(char c, char *str);
+bool	ft_isdigitstr(char *str);
+bool	ft_iswhitespacestr(char *str);
+bool	ft_isrgb(int nbr);
+
+/* Error and end*/
+
+int		errmsg(char *str, int code);
+void	ft_map_error(t_map *map, char *str, int code);
+void	clean_map(t_map *map);
 int		ft_end(t_cub *data);
 
 #endif
