@@ -6,7 +6,7 @@
 /*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:50:23 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/21 21:58:07 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/25 15:55:33 by crazyd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,6 @@ void	init_map(t_map *map, char *argv)
 	get_map(map);
 	close(map->fd);
 	check_map(map);
+	if (map->player_x == 0)
+		ft_map_error(map, "Player position unset", 1);
 }
