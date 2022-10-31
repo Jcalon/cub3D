@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_pixel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmattera <nmattera@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 20:07:13 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/31 18:55:12 by nmattera         ###   ########.fr       */
+/*   Updated: 2022/10/31 19:23:34 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ static void	pixel_put_wall(t_cub *data, int x, int y)
 		wall = &data->east;
 	else if (data->wall_type == WEST)
 		wall = &data->west;
-	x2 = (int)(data->wall_x * (double)IMG_W);
+	if (data->wall_type == NORTH || data->wall_type == EAST)
+		x2 = (int)(data->wall_x * (double)IMG_W);
+	else
+		x2 = (int)((1 - data->wall_x) * (double)IMG_W);
 	px = data->screen.size_line * y + x * data->screen.bits_per_pixel / 8;
 	y = y - (data->win_height / 2 - (int)data->wall_len / 2);
 	y2 = (int)((double)y * (double)wall->height / data->wall_len);
