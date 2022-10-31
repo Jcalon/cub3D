@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 21:59:12 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/21 21:59:32 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/31 18:02:49 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,26 @@ void	clean_map(t_map *map)
 int	ft_end(t_cub *data)
 {
 	clean_map(&data->map);
-	mlx_destroy_image(data->mlx, data->screen.img);
-	mlx_destroy_image(data->mlx, data->north.img);
-	mlx_destroy_image(data->mlx, data->south.img);
-	mlx_destroy_image(data->mlx, data->east.img);
-	mlx_destroy_image(data->mlx, data->west.img);
-	mlx_clear_window(data->mlx, data->win);
-	mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
+	if (data->mlx)
+	{
+		if (data->screen.img)
+			mlx_destroy_image(data->mlx, data->screen.img);
+		if (data->north.img)
+			mlx_destroy_image(data->mlx, data->north.img);
+		if (data->south.img)
+			mlx_destroy_image(data->mlx, data->south.img);
+		if (data->east.img)
+			mlx_destroy_image(data->mlx, data->east.img);
+		if (data->west.img)
+			mlx_destroy_image(data->mlx, data->west.img);
+		if (data->win)
+		{
+			mlx_clear_window(data->mlx, data->win);
+			mlx_destroy_window(data->mlx, data->win);
+		}
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
+	}
 	exit(EXIT_SUCCESS);
 	return (1);
 }

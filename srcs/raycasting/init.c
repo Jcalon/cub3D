@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 20:20:21 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/21 20:22:41 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/31 18:09:04 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,23 +66,24 @@ void	init_data(t_cub *data)
 
 static void	init_texture_img(t_cub *data)
 {
-	data->north.img = mlx_xpm_file_to_image(data->mlx, data->map.no,
-			&data->north.width, &data->north.height);
-	data->north.addr = mlx_get_data_addr(data->north.img,
-			&data->north.bits_per_pixel, &data->north.size_line,
-			&data->north.endian);
 	data->south.img = mlx_xpm_file_to_image(data->mlx, data->map.so,
 			&data->south.width, &data->south.height);
+	if (!data->south.img)
+		ft_end(data);
 	data->south.addr = mlx_get_data_addr(data->south.img,
 			&data->south.bits_per_pixel, &data->south.size_line,
 			&data->south.endian);
 	data->east.img = mlx_xpm_file_to_image(data->mlx, data->map.ea,
 			&data->east.width, &data->east.height);
+	if (!data->east.img)
+		ft_end(data);
 	data->east.addr = mlx_get_data_addr(data->east.img,
 			&data->east.bits_per_pixel, &data->east.size_line,
 			&data->east.endian);
 	data->west.img = mlx_xpm_file_to_image(data->mlx, data->map.we,
 			&data->west.width, &data->west.height);
+	if (!data->west.img)
+		ft_end(data);
 	data->west.addr = mlx_get_data_addr(data->west.img,
 			&data->west.bits_per_pixel, &data->west.size_line,
 			&data->west.endian);
@@ -95,10 +96,21 @@ void	init_screen(t_cub *data)
 	mlx_get_screen_size(data->mlx, &data->win_width, &data->win_height);
 	data->win = mlx_new_window(data->mlx,
 			data->win_width, data->win_height, "La magie des fêtes");
+	if (!data->win)
+		ft_end(data);
 	data->screen.img = mlx_new_image(data->mlx,
 			data->win_width, data->win_height);
+	if (!data->screen.img)
+		ft_end(data);
 	data->screen.addr = mlx_get_data_addr(data->screen.img,
 			&data->screen.bits_per_pixel, &data->screen.size_line,
 			&data->screen.endian);
+	data->north.img = mlx_xpm_file_to_image(data->mlx, data->map.no,
+			&data->north.width, &data->north.height);
+	if (!data->north.img)
+		ft_end(data);
+	data->north.addr = mlx_get_data_addr(data->north.img,
+			&data->north.bits_per_pixel, &data->north.size_line,
+			&data->north.endian);
 	init_texture_img(data);
 }

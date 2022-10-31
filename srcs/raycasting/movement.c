@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 20:03:33 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/21 20:03:56 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/31 17:52:06 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	move_forward(t_cub *data)
 
 	x = floor(data->pos_x + data->dir_x * data->speed);
 	y = floor(data->pos_y + data->dir_y * data->speed);
-	if (data->map.map[y][x] == '1')
-		return ;
-	data->pos_x += (data->dir_x * data->speed);
-	data->pos_y += (data->dir_y * data->speed);
+	if (data->map.map[y][(int)floor(data->pos_x)] != '1')
+		data->pos_y += (data->dir_y * data->speed);
+	if (data->map.map[(int)floor(data->pos_y)][x] != '1')
+		data->pos_x += (data->dir_x * data->speed);
 }
 
 void	move_backward(t_cub *data)
@@ -32,10 +32,10 @@ void	move_backward(t_cub *data)
 
 	x = floor(data->pos_x - data->dir_x * data->speed);
 	y = floor(data->pos_y - data->dir_y * data->speed);
-	if (data->map.map[y][x] == '1')
-		return ;
-	data->pos_x -= (data->dir_x * data->speed);
-	data->pos_y -= (data->dir_y * data->speed);
+	if (data->map.map[y][(int)floor(data->pos_x)] != '1')
+		data->pos_y -= (data->dir_y * data->speed);
+	if (data->map.map[(int)floor(data->pos_y)][x] != '1')
+		data->pos_x -= (data->dir_x * data->speed);
 }
 
 void	move_left(t_cub *data)
@@ -45,10 +45,10 @@ void	move_left(t_cub *data)
 
 	x = floor(data->pos_x - data->plane_x * data->speed);
 	y = floor(data->pos_y - data->plane_y * data->speed);
-	if (data->map.map[y][x] == '1')
-		return ;
-	data->pos_x -= (data->plane_x * data->speed);
-	data->pos_y -= (data->plane_y * data->speed);
+	if (data->map.map[y][(int)floor(data->pos_x)] != '1')
+		data->pos_y -= (data->plane_y * data->speed);
+	if (data->map.map[(int)floor(data->pos_y)][x] != '1')
+		data->pos_x -= (data->plane_x * data->speed);
 }
 
 void	move_right(t_cub *data)
@@ -58,10 +58,10 @@ void	move_right(t_cub *data)
 
 	x = floor(data->pos_x + data->plane_x * data->speed);
 	y = floor(data->pos_y + data->plane_y * data->speed);
-	if (data->map.map[y][x] == '1')
-		return ;
-	data->pos_x += (data->plane_x * data->speed);
-	data->pos_y += (data->plane_y * data->speed);
+	if (data->map.map[y][(int)floor(data->pos_x)] != '1')
+		data->pos_y += (data->plane_y * data->speed);
+	if (data->map.map[(int)floor(data->pos_y)][x] != '1')
+		data->pos_x += (data->plane_x * data->speed);
 }
 
 void	rotate(t_cub *data, bool lr)

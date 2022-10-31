@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:42:00 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/21 21:42:08 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/31 18:03:14 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	main(int argc, char *argv[])
 		init_map(&data.map, argv[1]);
 	}
 	data.mlx = mlx_init();
+	if (!data.mlx)
+		ft_end(&data);
 	init_data(&data);
 	init_screen(&data);
 	ft_render_next_frame(&data);
