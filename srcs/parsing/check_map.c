@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 20:55:40 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/21 21:29:22 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/31 16:14:24 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	check_void(t_map *map, int x, int y)
 
 static void	set_player_pos(t_map *map, int x, int y)
 {
+	check_void(map, x, y);
 	if (map->player_x != 0)
 		ft_map_error(map, "Too many POV", 1);
 	map->player_x = x;

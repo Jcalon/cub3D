@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crazyd <crazyd@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:41:22 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/21 22:01:44 by crazyd           ###   ########.fr       */
+/*   Updated: 2022/10/31 15:44:39 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <errno.h>
 # include <math.h>
 
-# define IMG_W 40
-# define IMG_H 40
+# define IMG_W 16
+# define IMG_H 16
 # define ESC 65307
 # define W 119
 # define A 97
