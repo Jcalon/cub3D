@@ -6,7 +6,7 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:41:22 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/31 15:44:39 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/10/31 16:28:10 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ typedef struct s_map
 	int		c;
 	int		f_color[3];
 	int		c_color[3];
-	int		player_x;
-	int		player_y;
+	double	player_x;
+	double	player_y;
 	char	player;
 	int		size_map;
 	int		wall_x;

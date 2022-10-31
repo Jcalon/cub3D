@@ -6,7 +6,7 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 20:55:40 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/31 16:14:24 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/10/31 16:30:05 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static void	set_player_pos(t_map *map, int x, int y)
 	check_void(map, x, y);
 	if (map->player_x != 0)
 		ft_map_error(map, "Too many POV", 1);
-	map->player_x = x;
-	map->player_y = y;
+	map->player_x = x + 0.5;
+	map->player_y = y + 0.5;
 	map->player = map->map[y][x];
 }
 
