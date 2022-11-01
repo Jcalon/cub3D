@@ -6,7 +6,7 @@
 /*   By: jcalon <jcalon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 23:42:00 by crazyd            #+#    #+#             */
-/*   Updated: 2022/10/31 18:03:14 by jcalon           ###   ########.fr       */
+/*   Updated: 2022/11/01 14:02:18 by jcalon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int argc, char *argv[])
 	{
 		data.map.fd = open(argv[1], O_RDONLY);
 		if (data.map.fd == -1)
-			return (strerror(errno), errno);
+			return (ft_putendl_fd(strerror(errno), 2), errno);
 		init_map(&data.map, argv[1]);
 	}
 	data.mlx = mlx_init();
