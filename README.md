@@ -16,5 +16,11 @@ $> ./cub3D maps/test.cub
 ```
 
 ### Controls
-WASD to move.  
--> and <- to change the view direction
+| KEY           | Action        |
+| ------------- |:-------------:|
+| `W`           | move forward  |
+| `A`           | move left     |
+| `S`           | move backward |
+| `D`           | move right    |
+| `→`           | turn right    |
+| `←`           | turn left     |
